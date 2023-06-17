@@ -1,8 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import routes from './routes/index.js'
-//import Home from './controller/Home.js'
 import AppController from './controller/App.js'
+
 
 // configuração do express
 
@@ -24,19 +24,16 @@ app.use(cors()) // adiciona o middleware cors()
 
 app.use(routes) // adciciona o middleware routes
 
-//app.get('/', Home.index)
-
 // adiciona os middlewares notFound e gerenciaErro do AppController
 app.use(AppController.notFound) 
 app.use(AppController.gerenciaErro)
 
-export default app // permite que outros arquivos importem o objeto app
+// documentacao
+app.use('/api', routes)
 
-/*
-app.listen(3000, () => {
-    console.log('Servidor iniciado na porta 3000: http://localhost:3000/');
-});
-*/
+//app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
+export default app // permite que outros arquivos importem o objeto app
 
 // URL do servidor (segurar o CTRL e clicar em cima):
 // http://localhost:3000/

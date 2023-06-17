@@ -4,6 +4,8 @@ import createError from 'http-errors'
 import jwt from 'jwt-simple'
 import moment from 'moment'
 import config from 'config'
+import swaggerUi from 'swagger-ui-express'
+import swaggerFile from '../../swagger_output.json' assert { type: "json" }
 
 // Router é usado para definir as rotas
 
@@ -63,6 +65,10 @@ const verifyJwt = (req, res, next) => {
 // todas as rotas definidas no objeto livroRoutes serão roteadas
 // a partir do caminho /livro
 routes.use('/livro', verifyJwt, livroRoutes) 
+
+// Rota para a documentação Swagger
+routes.use('/api-docs', swaggerUi.serve);
+routes.get('/api-docs', swaggerUi.setup(swaggerFile));
 
 //module.exports = router;
 export default routes

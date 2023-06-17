@@ -1,6 +1,7 @@
 import './App.css'
 import {useState, useEffect} from 'react'
 
+// renderiza o cabecalho da tabela a partir da propriedade livros
 function THead(props) {
   return (
     <thead>
@@ -10,6 +11,9 @@ function THead(props) {
     </thead>
   )
 }
+
+// renderiza o corpo da tabela com todos os livros cadastrados
+// cada linha é renderizada por meio do TLine
 function TBody(props) {
   return (
     <tbody>
@@ -21,6 +25,8 @@ function TBody(props) {
     </tbody>
   )
 }
+
+// renderiza uma linha da tabela
 function TLine(props) {
   return (
     <tr>
@@ -34,35 +40,56 @@ function TLine(props) {
     </tr>
   )
 }
+
 function App() {
-  const [livro, setLivro] = useState([])
-/*
+  // declarando a variavel de estado livro como um array vazio
+  // useState declara a variavel
+  // setLivro atualiza o valor dela
+  const [livro, setLivro] = useState([]) 
+  const [token, setToken] = useState(null) // adiciona o estado para o token
+
   useEffect(() => {
-    fetch('http://localhost:3000/livro')
-        .then(res => res.json())
-        .then(data => setLivro(data))
-  }, [])
-*/
+    // faz a requisição de login para obter o token
+    fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: 'usuario1',
+        password: '123'
+      })
+    })
+      .then(res => res.json())
+      .then(data => setToken(data.token))
+      .catch(error => {
+        console.error('Erro no login:', error);
+      });
+  }, []);
+
+
   useEffect(() => {
-  fetch('http://localhost:3000/livro', {
+  // chamada da API utilizando fetch
+  // faz a requisicao dos livros com o token
+  if (token) {
+    fetch('http://localhost:3000/livro', {
     headers: {
-      Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoidXN1YXJpbzEiLCJleHAiOjE2ODcyODMyMTYyMTV9.fu3jl0ZPdlcdI9B0noh_YheTMUoEke5geLqYEtdKYjE'
+      Authorization: `Bearer ${token}`
     }
   })
-    .then(res => res.json())
-    .then(data => setLivro(data));
-}, []);
+    .then(res => res.json()) // converte a resposta em json
+    .then(data => setLivro(data)) // dados sao atribuidos a variavel livro
+    .catch(error => {
+      console.error('Erro ao obter livros', error);
+    });
+  }
+}, [token]);
 
-/*
-  useEffect(() => {
-    console.log(livro)
-  }, [livro])
-*/
-
+// renderiza a tabela no navegador utilizando THead e TBody
   return (
     <>
       <h1>Livros</h1>
-      { livro && <table id="target">
+      { livro && <table id="target"> 
           <THead livros={['ID', 'Título', 'Autor', 'Editora', 'Ano', 'Edição', 'Gênero']} />
           <TBody livros={livro} />
       </table>}
