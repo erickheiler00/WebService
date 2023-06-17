@@ -28,10 +28,8 @@ app.use(routes) // adciciona o middleware routes
 app.use(AppController.notFound) 
 app.use(AppController.gerenciaErro)
 
-// documentacao
+// documentacao Swagger
 app.use('/api', routes)
-
-//app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 export default app // permite que outros arquivos importem o objeto app
 

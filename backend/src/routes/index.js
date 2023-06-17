@@ -70,5 +70,4 @@ routes.use('/livro', verifyJwt, livroRoutes)
 routes.use('/api-docs', swaggerUi.serve);
 routes.get('/api-docs', swaggerUi.setup(swaggerFile));
 
-//module.exports = router;
 export default routes
