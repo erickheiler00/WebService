@@ -1,8 +1,10 @@
-Livros-Web - Erick, Halena e Luana
+### Livros-Web - Erick, Halena e Luana
 
-Para rodar o backend: npm run dev
-Para rodar o frontend: npm start
+#### Para rodar o backend: 
+##### - npm run dev
+#### Para rodar o frontend: 
+##### - npm start
 
-vídeo do funcionamento:
-sobre o teste de segurança:
-prints do compartilhamento do vscode:
+#### vídeo do funcionamento:
+#### sobre o teste de segurança:
+#### prints do compartilhamento do vscode:
