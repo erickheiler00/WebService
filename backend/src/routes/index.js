@@ -1,4 +1,7 @@
 import {Router} from 'express' // importa a classe Router do express
+import generoRoutes from './genero.js'
+import editoraRoutes from './editora.js'
+import autorRoutes from './autor.js'
 import livroRoutes from './livro.js'
 import createError from 'http-errors'
 import jwt from 'jwt-simple'
@@ -62,9 +65,21 @@ const verifyJwt = (req, res, next) => {
     }
 }
 
+// todas as rotas definidas no objeto generoRoutes serão roteadas
+// a partir do caminho /genero
+routes.use('/genero', verifyJwt, generoRoutes)
+
+// todas as rotas definidas no objeto editoraRoutes serão roteadas
+// a partir do caminho /editora
+routes.use('/editora', verifyJwt, editoraRoutes)
+
+// todas as rotas definidas no objeto autorRoutes serão roteadas
+// a partir do caminho /autor
+routes.use('/autor', verifyJwt, autorRoutes)
+
 // todas as rotas definidas no objeto livroRoutes serão roteadas
 // a partir do caminho /livro
-routes.use('/livro', verifyJwt, livroRoutes) 
+routes.use('/livro', verifyJwt, livroRoutes)
 
 // Rota para a documentação Swagger
 routes.use('/api-docs', swaggerUi.serve);

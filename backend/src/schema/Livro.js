@@ -6,13 +6,19 @@ const {Schema} = mongoose
 // modelo de dados do livro / definição da estrutura do livro 
 const Livro = new Schema({ // nova instancia do Schema
     titulo: String,
-    autor: String,
-    editora: String,
+    autor: {
+        type: Schema.Types.ObjectId,
+        ref: 'Autor'
+    },
+    editora: {
+        type: Schema.Types.ObjectId,
+        ref: 'Editora'
+    },
     ano: Number,
     edicao: Number,
     genero: {
-        type: String, // lista de valores permitidos para o gênero
-        enum: ['Fantasia', 'Ficção científica', 'Terror', 'Romance', 'Conto', 'Infantil', 'Biografia', 'Humor', 'Autoajuda', 'História']
+        type: Schema.Types.ObjectId,
+        ref: 'Genero'
     }
 })
 
