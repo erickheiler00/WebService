@@ -87,13 +87,15 @@ function App() {
 
 // renderiza a tabela no navegador utilizando THead e TBody
   return (
-    <>
-      <h1>Livros</h1>
-      { livro && <table id="target"> 
+    <div className="container">
+      <h1 className="title">Livros</h1>
+      {livro.length > 0 && (
+        <table className="table"> 
           <THead livros={['ID', 'Título', 'Autor', 'Editora', 'Ano', 'Edição', 'Gênero']} />
           <TBody livros={livro} />
-      </table>}
-    </>
+      </table>
+      )}
+    </div>
   )
 }
 
