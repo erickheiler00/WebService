@@ -1,5 +1,6 @@
 import './App.css'
 import {useState, useEffect} from 'react'
+import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom'
 
 // renderiza o cabecalho da tabela a partir da propriedade generos
 function THeadG(props) {
@@ -250,39 +251,70 @@ function App() {
 
 // renderiza a tabela no navegador utilizando THead e TBody
   return (
-    <div className="container">
-      <h2 className="title">Gêneros</h2>
-      {genero.length > 0 && (
-        <table className="table"> 
-          <THeadG generos={['ID', 'Nome']} />
-          <TBodyG generos={genero} />
-      </table>
-      )}
+<Router>
+      <div className="container">
+        <nav className="navbar">
+            <NavLink to="/generos" className="nav-link" activeClassName="active">
+              Gêneros
+            </NavLink>
+            <NavLink to="/editoras" className="nav-link" activeClassName="active">
+              Editoras
+            </NavLink>
+            <NavLink to="/autores" className="nav-link" activeClassName="active">
+              Autores
+            </NavLink>
+            <NavLink to="/livros" className="nav-link" activeClassName="active">
+              Livros
+            </NavLink>
+          </nav>
 
-      <h2 className="title">Editoras</h2>
-      {editora.length > 0 && (
-        <table className="table"> 
-          <THeadE editoras={['ID', 'Nome']} />
-          <TBodyE editoras={editora} />
-      </table>
-      )}
+        <Routes>
+          <Route path="/generos" element={
+            genero.length > 0 ? (
+              <table className="table">
+                <THeadG generos={['ID', 'Nome']} />
+                <TBodyG generos={genero} />
+              </table>
+            ) : (
+              <p>Não há gêneros disponíveis.</p>
+            )
+          } />
 
-      <h2 className="title">Autores</h2>
-      {autor.length > 0 && (
-        <table className="table"> 
-          <THeadA autores={['ID', 'Nome', 'País']} />
-          <TBodyA autores={autor} />
-      </table>
-      )}
+          <Route path="/editoras" element={
+            editora.length > 0 ? (
+              <table className="table">
+                <THeadE editoras={['ID', 'Nome']} />
+                <TBodyE editoras={editora} />
+              </table>
+            ) : (
+              <p>Não há editoras disponíveis.</p>
+            )
+          } />
 
-      <h2 className="title">Livros</h2>
-      {livro.length > 0 && (
-        <table className="table"> 
-          <THead livros={['ID', 'Título', 'Autor', 'Editora', 'Ano', 'Edição', 'Gênero']} />
-          <TBody livros={livro} generos={genero} editoras={editora} autores={autor} />
-      </table>
-      )}
-    </div>
+          <Route path="/autores" element={
+            autor.length > 0 ? (
+              <table className="table">
+                <THeadA autores={['ID', 'Nome', 'País']} />
+                <TBodyA autores={autor} />
+              </table>
+            ) : (
+              <p>Não há autores disponíveis.</p>
+            )
+          } />
+
+          <Route path="/livros" element={
+            livro.length > 0 ? (
+              <table className="table">
+                <THead livros={['ID', 'Título', 'Autor', 'Editora', 'Ano', 'Edição', 'Gênero']} />
+                <TBody livros={livro} generos={genero} editoras={editora} autores={autor} />
+              </table>
+            ) : (
+              <p>Não há livros disponíveis.</p>
+            )
+          } />
+        </Routes>
+      </div>
+    </Router>
   )
 }
 

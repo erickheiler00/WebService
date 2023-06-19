@@ -75,3 +75,24 @@ body {
 .table tr:nth-child(even) {
   background-color: #6782b433;
 }
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 10px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+  margin: 0 5px;
+  border-radius: 5px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background-color: #ccc;
+}
