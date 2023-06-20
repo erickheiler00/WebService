@@ -2,10 +2,13 @@
 
 Classes: Livro, Autor, Editora e Gênero
 
-#### Para rodar o backend: 
+#### Para rodar o backend (dentro da pasta backend): 
 ##### - npm run dev
-#### Para rodar o frontend: 
+#### Para rodar o frontend (dentro da pasta livros): 
 ##### - npm start
+
+#### Para gerar a documentação da API:
+##### npm run doc-gen
 
 #### vídeo do funcionamento:
 #### sobre o teste de segurança:
