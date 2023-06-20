@@ -18,11 +18,14 @@ function THeadG(props) {
 // renderiza o corpo da tabela com todos os generos cadastrados
 // cada linha é renderizada por meio do TLine
 function TBodyG(props) {
+  const handleDeleteClick = (generoId) => {
+    props.delete(generoId);
+  };
   return (
     <tbody>
     {
       props.generos?.map(genero => {
-        return <TLineG key={genero._id} genero={genero} />
+        return <TLineG key={genero._id} genero={genero} onDelete={handleDeleteClick}/>
       })
     }
     </tbody>
@@ -31,10 +34,14 @@ function TBodyG(props) {
 
 // renderiza uma linha da tabela
 function TLineG(props) {
+  const handleDeleteClick = () => {
+    props.onDelete(props.genero._id);
+  };
   return (
     <tr>
       <td>{props.genero._id}</td>
       <td>{props.genero.nome}</td>
+      <td><button onClick={handleDeleteClick}>Deletar</button></td>
     </tr>
   )
 }
@@ -53,11 +60,14 @@ function THeadE(props) {
 // renderiza o corpo da tabela com todos as editoras cadastradas
 // cada linha é renderizada por meio do TLine
 function TBodyE(props) {
+  const handleDeleteClick = (editoraId) => {
+    props.delete(editoraId);
+  };
   return (
     <tbody>
     {
       props.editoras?.map(editora => {
-        return <TLineE key={editora._id} editora={editora} />
+        return <TLineE key={editora._id} editora={editora} onDelete={handleDeleteClick}/>
       })
     }
     </tbody>
@@ -66,10 +76,14 @@ function TBodyE(props) {
 
 // renderiza uma linha da tabela
 function TLineE(props) {
+  const handleDeleteClick = () => {
+    props.onDelete(props.editora._id);
+  };
   return (
     <tr>
       <td>{props.editora._id}</td>
       <td>{props.editora.nome}</td>
+      <td><button onClick={handleDeleteClick}>Deletar</button></td>
     </tr>
   )
 }
@@ -88,11 +102,14 @@ function THeadA(props) {
 // renderiza o corpo da tabela com todos os autores cadastrados
 // cada linha é renderizada por meio do TLine
 function TBodyA(props) {
+  const handleDeleteClick = (autorId) => {
+    props.delete(autorId);
+  };
   return (
     <tbody>
     {
       props.autores?.map(autor => {
-        return <TLineA key={autor._id} autor={autor} />
+        return <TLineA key={autor._id} autor={autor} onDelete={handleDeleteClick}/>
       })
     }
     </tbody>
@@ -101,11 +118,15 @@ function TBodyA(props) {
 
 // renderiza uma linha da tabela
 function TLineA(props) {
+  const handleDeleteClick = () => {
+    props.onDelete(props.autor._id);
+  };
   return (
     <tr>
       <td>{props.autor._id}</td>
       <td>{props.autor.nome}</td>
       <td>{props.autor.pais}</td>
+      <td><button onClick={handleDeleteClick}>Deletar</button></td>
     </tr>
   )
 }
@@ -296,14 +317,14 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        // Atualizar o estado dos livros com o novo livro
+        // atualiza o estado dos livros com o novo livro
         setLivro((livros) => [...livros, data]);
       })
       .catch((error) => {
         console.error('Erro ao criar livro:', error);
       });
 
-    // Limpar os campos do formulário
+    // limpa os campos do formulário
     form.reset();
   };
 
@@ -325,11 +346,162 @@ function App() {
       });
   };
 
+  // CADASTRO DE GENERO
+  const handleCreateGenero = (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const nome = form.elements.nome.value;
+
+    const novoGenero = {
+      nome,
+    };
+
+    fetch('http://localhost:3000/genero', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(novoGenero),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // atualiza o estado dos generos com o novo genero
+        setGenero((generos) => [...generos, data]);
+      })
+      .catch((error) => {
+        console.error('Erro ao criar gênero:', error);
+      });
+
+    // limpa os campos do formulário
+    form.reset();
+  };
+
+  // EXCLUSÃO DE GENERO
+  const handleDeleteGenero = (generoId) => {
+    fetch(`http://localhost:3000/genero/${generoId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setGenero((generos) => generos.filter((genero) => genero._id !== generoId));
+      })
+      .catch((error) => {
+        console.error('Erro ao deletar gênero:', error);
+      });
+  };
+
+  // CADASTRO DE EDITORA
+  const handleCreateEditora = (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const nome = form.elements.nome.value;
+
+    const novaEditora = {
+      nome,
+    };
+
+    fetch('http://localhost:3000/editora', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(novaEditora),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // atualiza o estado das editoras com o novo genero
+        setEditora((editoras) => [...editoras, data]);
+      })
+      .catch((error) => {
+        console.error('Erro ao criar editora:', error);
+      });
+
+    // limpa os campos do formulário
+    form.reset();
+  };
+
+  // EXCLUSÃO DE EDITORA
+  const handleDeleteEditora = (editoraId) => {
+    fetch(`http://localhost:3000/editora/${editoraId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setEditora((editoras) => editoras.filter((editora) => editora._id !== editoraId));
+      })
+      .catch((error) => {
+        console.error('Erro ao deletar editora:', error);
+      });
+  };
+
+  // CADASTRO DE AUTOR
+  const handleCreateAutor = (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const nome = form.elements.nome.value;
+    const pais = form.elements.pais.value;
+
+    const novoAutor = {
+      nome,
+      pais,
+    };
+
+    fetch('http://localhost:3000/autor', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(novoAutor),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // atualiza o estado dos autores com o novo genero
+        setEditora((autores) => [...autores, data]);
+      })
+      .catch((error) => {
+        console.error('Erro ao criar autor:', error);
+      });
+
+    // limpa os campos do formulário
+    form.reset();
+  };
+
+  // EXCLUSÃO DE AUTOR
+  const handleDeleteAutor = (autorId) => {
+    fetch(`http://localhost:3000/autor/${autorId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setEditora((autores) => autores.filter((autor) => autor._id !== autorId));
+      })
+      .catch((error) => {
+        console.error('Erro ao deletar autor:', error);
+      });
+  };
 
 
 // renderiza a tabela no navegador utilizando THead e TBody
   return (
-<Router>
+    <Router>
       <div className="container">
         <nav className="navbar">
             <NavLink to="/livros" className="nav-link" activeClassName="active">
@@ -348,37 +520,56 @@ function App() {
 
         <Routes>
             <Route path="/generos" element={
-              genero.length > 0 ? (
-                <table className="table">
-                  <THeadG generos={['ID', 'Nome']} />
-                  <TBodyG generos={genero} />
-                </table>
-              ) : (
-                <p>Não há gêneros disponíveis.</p>
-              )
+              <div>
+                {genero.length > 0 ? (
+                  <table className="table">
+                    <THeadG generos={['ID', 'Nome']} />
+                    <TBodyG generos={genero} delete={handleDeleteGenero}/>
+                  </table>
+                ) : (
+                  <p>Não há gêneros disponíveis.</p>
+                )}
+                <form onSubmit={handleCreateGenero}>
+                  <input type="text" name="nome" placeholder="Nome" required />
+                  <button type="submit">Criar Gênero</button>
+                </form>
+            </div>
             }
           />
 
           <Route path="/editoras" element={
-            editora.length > 0 ? (
-              <table className="table">
-                <THeadE editoras={['ID', 'Nome']} />
-                <TBodyE editoras={editora} />
-              </table>
-            ) : (
-              <p>Não há editoras disponíveis.</p>
-            )
+            <div>
+              {editora.length > 0 ? (
+                <table className="table">
+                  <THeadE editoras={['ID', 'Nome']} />
+                  <TBodyE editoras={editora} delete={handleDeleteEditora}/>
+                </table>
+              ) : (
+                <p>Não há editoras disponíveis.</p>
+              )}
+              <form onSubmit={handleCreateEditora}>
+                <input type="text" name="nome" placeholder="Nome" required />
+                <button type="submit">Criar Editora</button>
+              </form>
+            </div>
           } />
 
           <Route path="/autores" element={
-            autor.length > 0 ? (
-              <table className="table">
-                <THeadA autores={['ID', 'Nome', 'País']} />
-                <TBodyA autores={autor} />
-              </table>
-            ) : (
-              <p>Não há autores disponíveis.</p>
-            )
+            <div>
+              {autor.length > 0 ? (
+                <table className="table">
+                  <THeadA autores={['ID', 'Nome', 'País']} />
+                  <TBodyA autores={autor} delete={handleDeleteAutor}/>
+                </table>
+              ) : (
+                <p>Não há autores disponíveis.</p>
+              )}
+              <form onSubmit={handleCreateAutor}>
+                <input type="text" name="nome" placeholder="Nome" required />
+                <input type="text" name="pais" placeholder="País" required />
+                <button type="submit">Criar Autor</button>
+              </form>
+            </div>
           } />
 
           <Route path="/livros" element={
