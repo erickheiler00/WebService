@@ -3,7 +3,6 @@ import cors from 'cors'
 import routes from './routes/index.js'
 import AppController from './controller/App.js'
 
-
 // configuração do express
 
 // importando modulo express
