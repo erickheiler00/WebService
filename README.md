@@ -11,5 +11,9 @@ Classes: Livro, Autor, Editora e Gênero
 ##### - npm run doc-gen
 
 #### vídeo do funcionamento:
-#### sobre o teste de segurança:
+#### sobre o teste de vulnerabilidade:
+####  - Para fazer o teste de vulnerabilidade, foi utilizado a ferramenta OWASP ZAP
+####  - Depois de instalado, seleciona a opção Automated Scan
+####  - Feito isso, em "URL to attack" podemos adicionar a URL do site (https://localhost:3001)
+####  - E por fim, clicamos na opção "Attack". Assim, começará a análise e pode ser encontrado diversos alertas
 #### prints do compartilhamento do vscode em alguns dias: https://drive.google.com/drive/folders/1cK_41VLnBn0VtjHdjGoIp9F1XGZHIZ3p?usp=sharing
