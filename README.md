@@ -8,7 +8,7 @@ Classes: Livro, Autor, Editora e Gênero
 ##### - npm start
 
 #### Para gerar a documentação da API:
-##### npm run doc-gen
+##### - npm run doc-gen
 
 #### vídeo do funcionamento:
 #### sobre o teste de segurança:
